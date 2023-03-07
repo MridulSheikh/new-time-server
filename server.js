@@ -5,7 +5,7 @@ const app = require("./app");
 
 // database connection
 mongoose.set("strictQuery", false);
-mongoose.connect("mongodb://127.0.0.1:27017/freetime").then(()=>{
+mongoose.connect(process.env.mongo_url).then(()=>{
     console.log(`Database connection is successfull`.red.bold)
 })
 
