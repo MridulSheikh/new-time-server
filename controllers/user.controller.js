@@ -14,6 +14,7 @@ exports.createUserController = async (req, res) => {
        res.status(200).json({
           status: "success",
           message: "successfully create user",
+          body: req.body
         });
         return;
       }
