@@ -12,7 +12,7 @@ exports.getCategoryController = async (req, res) => {
     if (result.length === 0) {
       res.status(404).json({
         statuscode: 404,
-        message: "Cetagory Not Found",
+        message: "Please add some category",
       });
     } else {
       res.status(200).send({
