@@ -13,6 +13,7 @@ exports.getCategoryController = async (req, res) => {
       res.status(200).json({
         statuscode: 200,
         message: "Please add some category",
+        data: result,
       });
     } else {
       res.status(200).send({
