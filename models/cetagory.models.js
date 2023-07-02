@@ -4,7 +4,7 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const cetagorySchema = mongoose.Schema(
   {
-    createby: {
+    create_by: {
       type: String,
       required: [true, "require authon true"],
     },
