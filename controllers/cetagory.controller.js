@@ -10,8 +10,8 @@ exports.getCategoryController = async (req, res) => {
   try {
     const result = await getCategoryService();
     if (result.length === 0) {
-      res.status(404).json({
-        statuscode: 404,
+      res.status(200).json({
+        statuscode: 200,
         message: "Please add some category",
       });
     } else {
