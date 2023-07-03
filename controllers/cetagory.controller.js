@@ -61,9 +61,10 @@ exports.getCategoryByIdController = async (req, res) => {
   try {
     const result = await getCategorybyIdService(req.params.id);
     if (result === null) {
-      res.status(404).json({
-        statuscode: 404,
+      res.status(200).json({
+        statuscode: 200,
         message: "Category Not Found",
+        data: result,
       });
     } else {
       res.status(200).send({
