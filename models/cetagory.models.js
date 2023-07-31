@@ -1,6 +1,4 @@
-const { strikethrough } = require("colors");
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema.Types;
 
 const cetagorySchema = mongoose.Schema(
   {
@@ -16,10 +14,8 @@ const cetagorySchema = mongoose.Schema(
     },
     products: [
       {
-        id: {
-          type: ObjectId,
-          ref: "Product",
-        },
+        type: mongoose.Types.ObjectId,
+        ref: "Product",
       },
     ],
   },

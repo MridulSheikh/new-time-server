@@ -8,11 +8,12 @@ const brandRoute = require("./routes/brand.route");
 const order = require("./routes/order.route");
 const blog = require("./routes/blog.route");
 const payment = require("./routes/payment.route");
-const feedback = require("./routes/feedback.route")
+const feedback = require("./routes/feedback.route");
+const folder = require("./routes/folder.route");
 
 // middleware
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 //routes
 // user route
@@ -22,21 +23,24 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/product", productRoute);
 
 // category route
-app.use("/api/v1/category", categoryRoute)
+app.use("/api/v1/category", categoryRoute);
 
 // brand route
 app.use("/api/v1/brand", brandRoute);
 
 // order route
-app.use("/api/v1/order", order)
+app.use("/api/v1/order", order);
 
 // blog router
-app.use("/api/v1/blog", blog)
+app.use("/api/v1/blog", blog);
 
 // payment intent route
-app.use("/api/v1/create-payment-intent", payment)
+app.use("/api/v1/create-payment-intent", payment);
 
 // feedback router
-app.use("/api/v1/feedback", feedback)
+app.use("/api/v1/feedback", feedback);
 
-module.exports=app;
+// folder router
+app.use("/api/v1/folder", folder);
+
+module.exports = app;

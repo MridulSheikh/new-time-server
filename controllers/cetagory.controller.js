@@ -84,7 +84,9 @@ exports.getCategoryByIdController = async (req, res) => {
 
 exports.updateCategoryController = async (req, res) => {
   try {
+    console.log(req.body);
     const result = await updateCategoryService(req.body);
+    console.log(result);
     if (result.modifiedCount > 0) {
       res.status(200).send({
         statuscode: 200,

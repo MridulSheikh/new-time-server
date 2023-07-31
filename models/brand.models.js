@@ -4,26 +4,24 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const brandSchema = mongoose.Schema(
   {
+    logo: {
+      type: String,
+      validate: [validator.isURL, "provide a valid photo url"],
+    },
     name: {
       type: String,
-      required: [true, "please brand name"],
+      required: [true, "please provide brand name"],
       unique: true,
       upercase: true,
     },
-    email: {
+    number: {
       type: String,
-      validator: [validator.isEmail, "provide a valid Email"],
-      trim: true,
-      lowercase: true,
-      unique: true,
-      required: [true, "please provide brand email address"],
+      required: [true, "please provide supplier number"],
     },
     products: [
       {
-        id: {
-          type: ObjectId,
-          ref: "Product",
-        },
+        type: ObjectId,
+        ref: "Product",
       },
     ],
   },
