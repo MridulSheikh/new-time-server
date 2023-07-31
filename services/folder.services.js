@@ -7,3 +7,6 @@ exports.createFolderService = async (body) => {
 exports.getFolderService = async () => {
   return Folders.find({});
 };
+exports.deletFolderService = async (id) => {
+  return Folders.deleteOne({ _id: id });
+};

@@ -7,4 +7,6 @@ router
   .post(controller.createFolderController)
   .get(controller.getFolderController);
 
+router.route("/:id").delete(controller.deleteCategoryController);
+
 module.exports = router;

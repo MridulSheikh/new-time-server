@@ -7,6 +7,7 @@ const folderSchema = mongoose.Schema(
       type: String,
       required: [true, "Please provide folder name"],
       unique: true,
+      trim: true,
     },
     create_by: {
       type: String,
