@@ -21,3 +21,13 @@ exports.updateFolderServices = async (id, body) => {
     runValidators: true,
   });
 };
+
+exports.removeImageFromFolderServices = async (id, image_id) => {
+  return Folders.updateOne(
+    { _id: id },
+    { $pull: { resources: { id: image_id } } },
+    {
+      runValidators: true,
+    }
+  );
+};

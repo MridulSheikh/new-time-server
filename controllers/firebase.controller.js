@@ -1,10 +1,12 @@
 const firebaseInitialize = require("../firebase/firebase.init");
-const { createImageController } = require("../controllers/image.controller");
+const { createImageController } = require("./image.controller");
+const { removeImageFromFolderController } = require("./folder.controller");
 const {
   getStorage,
   ref,
   getDownloadURL,
   uploadBytesResumable,
+  deleteObject,
 } = require("firebase/storage");
 
 // initialize firebase app
@@ -54,6 +56,19 @@ exports.uploadImagefirebaseController = async (req, res) => {
     res.status(401).json({
       errorcode: 401,
       errormessage: error.message,
+    });
+  }
+};
+
+exports.deleteImagefirebaseController = async (req, res) => {
+  try {
+    const desertRef = ref(storage, `${req.body.imageUrl}`);
+    const snapshot = await deleteObject(desertRef);
+    removeImageFromFolderController(req.body.folder, req.params.id, res);
+  } catch (error) {
+    res.status(401).json({
+      errorcode: 401,
+      errormessage: "Image not found!",
     });
   }
 };

@@ -4,7 +4,9 @@ const {
   deletFolderService,
   updateFolderServices,
   getFolderByIdService,
+  removeImageFromFolderServices,
 } = require("../services/folder.services");
+const { deletImageService } = require("../services/image.services");
 
 exports.createFolderController = async (req, res) => {
   try {
@@ -112,6 +114,25 @@ exports.addImageInFolderController = async (id, image_data, res) => {
     res.status(200).json({
       statuscode: 200,
       message: "successfully created image",
+    });
+  } catch (error) {
+    res.status(401).json({
+      errorcode: 401,
+      errormessage: error.message,
+    });
+  }
+};
+
+exports.removeImageFromFolderController = async (folder_id, image_id, res) => {
+  try {
+    const getSingleFolder = await getFolderByIdService(folder_id);
+    const newArray = [...getSingleFolder.resources];
+    const filterArray = newArray.map((image) => image.id != image_id);
+    const result = await removeImageFromFolderServices(folder_id, image_id);
+    const deleteimageFromdatabase = await deletImageService(image_id);
+    res.status(200).json({
+      statuscode: 200,
+      message: "successfully delete image",
     });
   } catch (error) {
     res.status(401).json({
