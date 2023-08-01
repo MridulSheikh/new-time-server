@@ -3,6 +3,7 @@ const {
   getFolderService,
   deletFolderService,
   updateFolderServices,
+  getFolderByIdService,
 } = require("../services/folder.services");
 
 exports.createFolderController = async (req, res) => {
@@ -94,6 +95,28 @@ exports.updateFolderController = async (req, res) => {
     res.status(401).json({
       errorcode: 401,
       errormessage: "This Name Already Taken",
+    });
+  }
+};
+
+exports.addImageInFolderController = async (id, image_data, res) => {
+  try {
+    const getSingleFolder = await getFolderByIdService(id);
+    const newArray = [...getSingleFolder.resources];
+    newArray.push({
+      name: image_data.name,
+      id: image_data._id,
+      imageUrl: image_data.imageUrl,
+    });
+    const result = await updateFolderServices(id, { resources: newArray });
+    res.status(200).json({
+      statuscode: 200,
+      message: "successfully created image",
+    });
+  } catch (error) {
+    res.status(401).json({
+      errorcode: 401,
+      errormessage: error.message,
     });
   }
 };

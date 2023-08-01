@@ -15,8 +15,18 @@ const folderSchema = mongoose.Schema(
     },
     resources: [
       {
-        type: mongoose.Types.ObjectId,
-        ref: "Image",
+        name: {
+          type: String,
+          trim: true,
+        },
+        id: {
+          type: mongoose.Types.ObjectId,
+          ref: "Image",
+        },
+        imageUrl: {
+          type: String,
+          validate: [validator.isURL, "Please Provid a valid url"],
+        },
       },
     ],
   },

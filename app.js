@@ -47,4 +47,20 @@ app.use("/api/v1/folder", folder);
 // upload image route
 app.use("/api/v1/image", image);
 
+//404 errro handler
+app.use((req, res, next) => {
+  next("Requested url was not found!");
+});
+
+// global error handler
+app.use((err, req, res, next) => {
+  if (err) {
+    res.status(500).send({
+      errormessage: err,
+    });
+  } else {
+    res.status(500).send("There was an error!");
+  }
+});
+
 module.exports = app;

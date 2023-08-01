@@ -2,16 +2,15 @@ const {
   createImageService,
   getImageService,
 } = require("../services/image.services");
+const {
+  addImageInFolderController,
+} = require("../controllers/folder.controller");
 
 exports.createImageController = async (data, res) => {
   try {
     const result = await createImageService(data);
     if (result.name) {
-      res.status(200).json({
-        statuscode: 200,
-        message: "successfully created Image",
-        data: result,
-      });
+      addImageInFolderController(result.folder, result, res);
     } else {
       res.status(401).json({
         errorcode: 401,

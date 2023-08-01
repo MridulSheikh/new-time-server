@@ -6,7 +6,6 @@ const imageSchema = mongoose.Schema(
     name: {
       type: String,
       required: [true, "Please provide image name"],
-      unique: true,
       trim: true,
     },
     imageUrl: {
