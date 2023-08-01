@@ -76,8 +76,6 @@ exports.getCategoryByIdController = async (req, res) => {
     res.status(401).json({
       errorcode: 401,
       errormessage: error.message,
-      message:
-        "please check you network collection or please send a email for support",
     });
   }
 };
@@ -96,15 +94,13 @@ exports.updateCategoryController = async (req, res) => {
     } else {
       res.status(401).json({
         errorcode: 401,
-        message: "make sure you are given right cetagory id or data",
+        errormessage: "make sure you are given right cetagory id or data",
       });
     }
   } catch (error) {
     res.status(401).json({
       errorcode: 401,
-      errormessage: error.message,
-      message:
-        "please check you network collection or please send a email for support",
+      errormessage: "This Name Already Taken",
     });
   }
 };
@@ -127,8 +123,6 @@ exports.deleteCategoryController = async (req, res) => {
     res.status(401).json({
       errorcode: 401,
       errormessage: error.message,
-      message:
-        "please check you network collection or please send a email for support",
     });
   }
 };

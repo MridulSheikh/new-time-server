@@ -10,6 +10,7 @@ const blog = require("./routes/blog.route");
 const payment = require("./routes/payment.route");
 const feedback = require("./routes/feedback.route");
 const folder = require("./routes/folder.route");
+const image = require("./routes/image.route");
 
 // middleware
 app.use(express.json());
@@ -37,10 +38,13 @@ app.use("/api/v1/blog", blog);
 // payment intent route
 app.use("/api/v1/create-payment-intent", payment);
 
-// feedback router
+// feedback route
 app.use("/api/v1/feedback", feedback);
 
 // folder router
 app.use("/api/v1/folder", folder);
+
+// upload image route
+app.use("/api/v1/image", image);
 
 module.exports = app;

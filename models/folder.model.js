@@ -13,10 +13,12 @@ const folderSchema = mongoose.Schema(
       type: String,
       validate: [validator.isEmail, "Please Provid a valid email"],
     },
-    resources: {
-      type: mongoose.Types.ObjectId,
-      ref: "Resources",
-    },
+    resources: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Image",
+      },
+    ],
   },
   {
     timestamps: true,

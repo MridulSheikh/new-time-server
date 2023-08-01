@@ -10,3 +10,9 @@ exports.getFolderService = async () => {
 exports.deletFolderService = async (id) => {
   return Folders.deleteOne({ _id: id });
 };
+
+exports.updateFolderServices = async (id, body) => {
+  return Folders.updateOne({ _id: id }, body, {
+    runValidators: true,
+  });
+};

@@ -2,6 +2,7 @@ const {
   createFolderService,
   getFolderService,
   deletFolderService,
+  updateFolderServices,
 } = require("../services/folder.services");
 
 exports.createFolderController = async (req, res) => {
@@ -70,6 +71,29 @@ exports.deleteCategoryController = async (req, res) => {
     res.status(401).json({
       errorcode: 401,
       errormessage: error.message,
+    });
+  }
+};
+
+exports.updateFolderController = async (req, res) => {
+  try {
+    const result = await updateFolderServices(req.params.id, req.body);
+    if (result.modifiedCount > 0) {
+      res.status(200).send({
+        statuscode: 200,
+        message: "Folder successfuly update",
+        data: req.body,
+      });
+    } else {
+      res.status(401).json({
+        errorcode: 401,
+        errormessage: "make sure you are given right Folder id or data",
+      });
+    }
+  } catch (error) {
+    res.status(401).json({
+      errorcode: 401,
+      errormessage: "This Name Already Taken",
     });
   }
 };
