@@ -7,6 +7,11 @@ exports.createImageService = async (body) => {
 exports.getImageService = async () => {
   return image.find({});
 };
+
+exports.getImagebyIdService = async (id) => {
+  return image.findOne({ _id: id });
+};
+
 exports.deletImageService = async (id) => {
   return image.deleteOne({ _id: id });
 };

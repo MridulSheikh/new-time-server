@@ -101,15 +101,35 @@ exports.updateFolderController = async (req, res) => {
   }
 };
 
+exports.getFolderById = async (req, res) => {
+  try {
+    const result = await getFolderByIdService(req.params.id);
+    if (result === null) {
+      res.status(401).json({
+        errorcode: 401,
+        message: "Folder Not Found",
+      });
+    } else {
+      res.status(200).send({
+        statuscode: 200,
+        message: "Folder Found",
+        data: result,
+      });
+    }
+  } catch (error) {
+    res.status(401).json({
+      errorcode: 401,
+      errormessage: error.message,
+    });
+  }
+};
+
+// add image on folder
 exports.addImageInFolderController = async (id, image_data, res) => {
   try {
     const getSingleFolder = await getFolderByIdService(id);
     const newArray = [...getSingleFolder.resources];
-    newArray.push({
-      name: image_data.name,
-      id: image_data._id,
-      imageUrl: image_data.imageUrl,
-    });
+    newArray.push(image_data._id);
     const result = await updateFolderServices(id, { resources: newArray });
     res.status(200).json({
       statuscode: 200,
@@ -123,11 +143,11 @@ exports.addImageInFolderController = async (id, image_data, res) => {
   }
 };
 
+// remove image from folder
 exports.removeImageFromFolderController = async (folder_id, image_id, res) => {
   try {
     const getSingleFolder = await getFolderByIdService(folder_id);
     const newArray = [...getSingleFolder.resources];
-    const filterArray = newArray.map((image) => image.id != image_id);
     const result = await removeImageFromFolderServices(folder_id, image_id);
     const deleteimageFromdatabase = await deletImageService(image_id);
     res.status(200).json({

@@ -10,6 +10,7 @@ router
 router
   .route("/:id")
   .delete(controller.deleteCategoryController)
-  .patch(controller.updateFolderController);
+  .patch(controller.updateFolderController)
+  .get(controller.getFolderById);
 
 module.exports = router;

@@ -9,7 +9,7 @@ exports.getFolderService = async () => {
 };
 
 exports.getFolderByIdService = async (id) => {
-  return Folders.findOne({ _id: id });
+  return Folders.findOne({ _id: id }).populate("resources");
 };
 
 exports.deletFolderService = async (id) => {
@@ -25,7 +25,7 @@ exports.updateFolderServices = async (id, body) => {
 exports.removeImageFromFolderServices = async (id, image_id) => {
   return Folders.updateOne(
     { _id: id },
-    { $pull: { resources: { id: image_id } } },
+    { $pull: { resources: image_id } },
     {
       runValidators: true,
     }
