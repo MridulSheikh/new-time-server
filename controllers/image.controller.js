@@ -1,6 +1,8 @@
 const {
   createImageService,
   getImageService,
+  updateImageByid,
+  getImagebyIdService,
 } = require("../services/image.services");
 const {
   addImageInFolderController,
@@ -33,6 +35,52 @@ exports.getImageController = async (req, res) => {
         statuscode: 200,
         message: "Image not found",
         data: result,
+      });
+    } else {
+      res.status(200).send({
+        statuscode: 200,
+        message: "Image Found",
+        data: result,
+      });
+    }
+  } catch (error) {
+    res.status(401).json({
+      errorcode: 401,
+      errormessage: error.message,
+    });
+  }
+};
+
+exports.updateImageController = async (req, res) => {
+  try {
+    const result = await updateImageByid(req.params.id, req.body);
+    if (result.modifiedCount > 0) {
+      res.status(200).send({
+        statuscode: 200,
+        message: "Image Successfully renamed",
+        data: req.body,
+      });
+    } else {
+      res.status(401).json({
+        errorcode: 401,
+        errormessage: "make sure you are given right Image id or data",
+      });
+    }
+  } catch (error) {
+    res.status(401).json({
+      errorcode: 401,
+      errormessage: "This Name Already Taken",
+    });
+  }
+};
+
+exports.getImageById = async (req, res) => {
+  try {
+    const result = await getImagebyIdService(req.params.id);
+    if (result === null) {
+      res.status(401).json({
+        errorcode: 401,
+        message: "Image Not Found",
       });
     } else {
       res.status(200).send({

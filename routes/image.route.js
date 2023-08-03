@@ -15,6 +15,8 @@ router
 
 router
   .route("/:id")
-  .delete(upload.single("image"), controller.deleteImagefirebaseController);
+  .delete(upload.single("image"), controller.deleteImagefirebaseController)
+  .patch(ImageController.updateImageController)
+  .get(ImageController.getImageById);
 
 module.exports = router;

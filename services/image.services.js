@@ -15,3 +15,7 @@ exports.getImagebyIdService = async (id) => {
 exports.deletImageService = async (id) => {
   return image.deleteOne({ _id: id });
 };
+
+exports.updateImageByid = async (id, body) => {
+  return image.updateOne({ _id: id }, body);
+};
