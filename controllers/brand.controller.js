@@ -125,8 +125,7 @@ exports.deleteBrandController = async (req, res) => {
     res.status(401).json({
       errorcode: 401,
       errormessage: error.message,
-      message:
-        "please check you network collection or please send a email for support",
+      message: "Brand not deleted",
     });
   }
 };
