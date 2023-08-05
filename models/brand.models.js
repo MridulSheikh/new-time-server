@@ -13,6 +13,7 @@ const brandSchema = mongoose.Schema(
       required: [true, "please provide brand name"],
       unique: true,
       upercase: true,
+      trim: true,
     },
     number: {
       type: String,

@@ -11,6 +11,7 @@ const cetagorySchema = mongoose.Schema(
       required: [true, "require cetagory name"],
       unique: true,
       lowercase: true,
+      trim: true,
     },
     products: [
       {

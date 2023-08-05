@@ -12,8 +12,8 @@ exports.getBrandbyIdService = async (id) => {
   return Brand.findOne({ _id: id });
 };
 
-exports.updateBrandService = async (data) => {
-  return Brand.updateOne({ _id: data.id }, data, {
+exports.updateBrandService = async (id, data) => {
+  return Brand.updateOne({ _id: id }, data, {
     runValidators: true,
   });
 };

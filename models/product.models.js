@@ -6,38 +6,27 @@ const productSchema = mongoose.Schema(
   {
     img: {
       type: String,
-      required: true,
+      validate: [validator.isURL, "Plese provide a valid link"],
     },
-    title: {
+    name: {
       type: String,
       required: [true, "product title required"],
       unique: true,
+      trim: true,
     },
     description: {
       type: String,
       required: [true, "prodcut description required"],
     },
     brand: {
-      name: {
-        type: String,
-        required: true,
-      },
-      id: {
-        type: ObjectId,
-        ref: "Brand",
-        required: true,
-      },
+      type: ObjectId,
+      ref: "Brand",
+      required: [true, "Brand is Required"],
     },
     category: {
-      name: {
-        type: String,
-        required: true,
-      },
-      id: {
-        type: ObjectId,
-        ref: "Cetagory",
-        required: true,
-      },
+      type: ObjectId,
+      ref: "Cetagory",
+      required: [true, "Category is Required"],
     },
     price: {
       type: Number,
@@ -47,15 +36,12 @@ const productSchema = mongoose.Schema(
       {
         email: {
           type: String,
-          required: [true, "email required"],
         },
         ratting: {
           type: Number,
-          required: [true, "ratting required"],
         },
         review: {
           type: String,
-          required: [true, "review required"],
         },
       },
     ],
