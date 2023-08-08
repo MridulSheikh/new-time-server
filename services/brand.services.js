@@ -21,3 +21,11 @@ exports.updateBrandService = async (id, data) => {
 exports.deleteBrandService = async (id) => {
   return Brand.deleteOne({ _id: id });
 };
+
+exports.addProductonBrand = async (id, data) => {
+  return Brand.updateOne({ _id: id }, { $push: { products: data } });
+};
+
+exports.removedProductsFromBrand = async (id, data) => {
+  return Brand.updateOne({ _id: id }, { $pull: { products: data } });
+};

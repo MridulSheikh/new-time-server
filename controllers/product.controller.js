@@ -5,6 +5,10 @@ const {
   updateProductService,
   deleteProductService,
 } = require("../services/product.services");
+const {
+  addProductonBrand,
+  removedProductsFromBrand,
+} = require("../services/brand.services");
 
 exports.getProdcutController = async (req, res) => {
   try {
@@ -34,7 +38,11 @@ exports.getProdcutController = async (req, res) => {
 exports.createProductController = async (req, res) => {
   try {
     const result = await createProductService(req.body);
-    if (result.title) {
+    if (result.name) {
+      const setProductOnBrand = await addProductonBrand(
+        req.body.brand,
+        result._id
+      );
       res.status(200).json({
         statuscode: 200,
         message: "successfully created product",
@@ -61,7 +69,7 @@ exports.getProductByIdController = async (req, res) => {
   try {
     const result = await getProductbyIdService(req.params.id);
     if (result === null) {
-        res.status(404).json({
+      res.status(404).json({
         statuscode: 404,
         message: "Product Not Found",
       });
@@ -84,51 +92,56 @@ exports.getProductByIdController = async (req, res) => {
 
 exports.updateProductController = async (req, res) => {
   try {
-    const result = await updateProductService(req.body)
-    if(result.modifiedCount > 0){
+    const result = await updateProductService(req.params.id, req.body);
+    if (result.modifiedCount > 0) {
       res.status(200).send({
         statuscode: 200,
         message: "Product successfuly update",
-        data : req.body
+        data: req.body,
       });
-    }else{
+    } else {
       res.status(401).json({
         errorcode: 401,
-        message:
-          "make sure you are given right product id or data",
+        message: "make sure you are given right product id or data",
       });
     }
   } catch (error) {
     res.status(401).json({
       errorcode: 401,
       errormessage: error.message,
-      message:
-        "please check you network collection or please send a email for support",
+      message: error.message,
     });
   }
 };
 
 exports.deleteProductController = async (req, res) => {
-  try{
-      const result = await deleteProductService(req.params.id)
-      if(result.deletedCount > 0){
-        res.status(200).json({
-          statuscode : 200,
-          message : "Product successfuly deleted"
-        })
-      }else{
-        res.status(401).json({
-          errorcode: 401,
-          message:
-            "product not found",
-        });
+  try {
+    let per_action_message = [];
+    const mapitem = await req.body.item.map(async (it) => {
+      const result = await deleteProductService(it._id);
+      if (result.deletedCount > 0) {
+        const deleteProductfromBrand = await removedProductsFromBrand(
+          it.brand._id,
+          it._id
+        );
+        per_action_message.push(
+          `suceesfully deleted product, name : ${it._id} , id ${it._id}`
+        );
+      } else {
+        per_action_message.push(
+          ` product not successfully deleted , name : ${it._id} , id ${it._id}`
+        );
       }
-  }catch(error){
+    });
+    res.status(200).json({
+      statuscode: 200,
+      message: "successfully deleted product",
+      per_action_message,
+    });
+  } catch (error) {
     res.status(401).json({
       errorcode: 401,
       errormessage: error.message,
-      message:
-        "please check you network collection or please send a email for support",
     });
   }
-}
+};
