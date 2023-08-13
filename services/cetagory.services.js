@@ -21,3 +21,11 @@ exports.updateCategoryService = async (data) => {
 exports.deleteCategoryService = async (id) => {
   return Category.deleteOne({ _id: id });
 };
+
+exports.addProductonCategory = async (id, data) => {
+  return Category.updateOne({ _id: id }, { $push: { products: data } });
+};
+
+exports.removedProductsFromCategory = async (id, data) => {
+  return Category.updateOne({ _id: id }, { $pull: { products: data } });
+};

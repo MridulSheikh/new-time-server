@@ -9,6 +9,10 @@ const {
   addProductonBrand,
   removedProductsFromBrand,
 } = require("../services/brand.services");
+const {
+  removedProductsFromCategory,
+  addProductonCategory,
+} = require("../services/cetagory.services");
 
 exports.getProdcutController = async (req, res) => {
   try {
@@ -43,6 +47,10 @@ exports.createProductController = async (req, res) => {
         req.body.brand,
         result._id
       );
+      const setProductOnCategory = await addProductonCategory(
+        req.body.category,
+        result._id
+      );
       res.status(200).json({
         statuscode: 200,
         message: "successfully created product",
@@ -59,8 +67,7 @@ exports.createProductController = async (req, res) => {
     res.status(401).json({
       errorcode: 401,
       errormessage: error.message,
-      message:
-        "please check you network collection or please send a email for support",
+      message: error.message,
     });
   }
 };
@@ -114,19 +121,27 @@ exports.updateProductController = async (req, res) => {
   }
 };
 
-exports.deleteProductController = async (req, res) => {
+exports.deleteProductController = async (req, res, next) => {
   try {
     let per_action_message = [];
     const mapitem = await req.body.item.map(async (it) => {
       const result = await deleteProductService(it._id);
       if (result.deletedCount > 0) {
-        const deleteProductfromBrand = await removedProductsFromBrand(
-          it.brand._id,
-          it._id
-        );
-        per_action_message.push(
-          `suceesfully deleted product, name : ${it._id} , id ${it._id}`
-        );
+        try {
+          const deleteProductfromBrand = await removedProductsFromBrand(
+            it?.brand?._id,
+            it._id
+          );
+          const deleteProductfromCategory = await removedProductsFromCategory(
+            it?.category?._id,
+            it._id
+          );
+          per_action_message.push(
+            `suceesfully deleted product, name : ${it._id} , id ${it._id}`
+          );
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         per_action_message.push(
           ` product not successfully deleted , name : ${it._id} , id ${it._id}`
