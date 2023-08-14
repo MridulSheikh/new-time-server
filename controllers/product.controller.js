@@ -13,10 +13,12 @@ const {
   removedProductsFromCategory,
   addProductonCategory,
 } = require("../services/cetagory.services");
+const queryfilter = require("../lib/queryfilter");
 
 exports.getProdcutController = async (req, res) => {
   try {
-    const result = await getProductService();
+    const { filters, queries } = queryfilter(req);
+    const result = await getProductService(filters, queries);
     if (result.length === 0) {
       res.status(404).json({
         statuscode: 404,

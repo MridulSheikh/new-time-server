@@ -4,8 +4,16 @@ exports.createProductService = async (data) => {
   return Product.create(data);
 };
 
-exports.getProductService = async () => {
-  return Product.find({}).populate("brand category");
+exports.getProductService = async (filters, query) => {
+  const products = await Product.find(filters)
+    .skip(query.skip)
+    .limit(query.limit)
+    .select(query.fields)
+    .sort(query.sort)
+    .populate(query.populate);
+  const total = await Product.countDocuments(filters);
+  const pagecount = Math.ceil(total / query.limit);
+  return { products, total, pagecount };
 };
 
 exports.getProductbyIdService = async (id) => {
