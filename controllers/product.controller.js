@@ -4,6 +4,7 @@ const {
   getProductbyIdService,
   updateProductService,
   deleteProductService,
+  addRatting,
 } = require("../services/product.services");
 const {
   addProductonBrand,
@@ -159,6 +160,30 @@ exports.deleteProductController = async (req, res, next) => {
     res.status(401).json({
       errorcode: 401,
       errormessage: error.message,
+    });
+  }
+};
+
+exports.addReviewsController = async (req, res) => {
+  try {
+    const result = await addRatting(req.params.id, req.body);
+    if (result.modifiedCount > 0) {
+      res.status(200).send({
+        statuscode: 200,
+        message: "Thank's for ratting us",
+        data: req.body,
+      });
+    } else {
+      res.status(401).json({
+        errorcode: 401,
+        message: "somehow your ratting not added please try again",
+      });
+    }
+  } catch (error) {
+    res.status(401).json({
+      errorcode: 401,
+      errormessage: error.message,
+      message: error.message,
     });
   }
 };

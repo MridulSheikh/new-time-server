@@ -29,3 +29,13 @@ exports.updateProductService = async (id, data) => {
 exports.deleteProductService = async (id) => {
   return Product.deleteOne({ _id: id });
 };
+
+exports.addRatting = async (id, data) => {
+  return Product.updateOne(
+    { _id: id },
+    { $push: { reviews: data } },
+    {
+      runValidators: true,
+    }
+  );
+};

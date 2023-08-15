@@ -8,6 +8,8 @@ router
   .get(controller.getProdcutController)
   .delete(controller.deleteProductController);
 
+router.route("/review/:id").patch(controller.addReviewsController);
+
 router
   .route("/:id")
   .get(controller.getProductByIdController)
