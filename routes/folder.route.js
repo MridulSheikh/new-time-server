@@ -1,16 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/folder.controller");
+const verifyToken = require("../middlewares/verifyToken");
+const verifyadmin = require("../middlewares/verifyadmin");
 
 router
   .route("/")
-  .post(controller.createFolderController)
-  .get(controller.getFolderController);
+  .post(verifyToken,verifyadmin,controller.createFolderController)
+  .get(verifyToken,verifyadmin,controller.getFolderController);
 
 router
   .route("/:id")
-  .delete(controller.deleteCategoryController)
-  .patch(controller.updateFolderController)
-  .get(controller.getFolderById);
+  .delete(verifyToken,verifyadmin,controller.deleteCategoryController)
+  .patch(verifyToken,verifyadmin,controller.updateFolderController)
+  .get(verifyToken,verifyadmin,controller.getFolderById);
 
 module.exports = router;

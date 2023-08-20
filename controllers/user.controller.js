@@ -5,24 +5,29 @@ const {
   userUpdatebyIdService,
 } = require("../services/user.sevices");
 
+const { sendMail } = require("../lib/email");
+const { generateToken } = require("../utils/token");
+
 exports.createUserController = async (req, res) => {
   try {
     const filter = await getUserByIdService(req.body.email);
     if (filter === null) {
-      const result = await createUserService(req.body);
-      if(result.email){
-       res.status(200).json({
+      const result = await createUserService(req.body.email);
+      if (result.email) {
+        const token = generateToken({ email: result.email, role: "buyer" });
+        res.status(200).json({
           status: "success",
           message: "successfully create user",
-          body: req.body
+          body: { ...result, token: token },
         });
         return;
       }
     } else {
+      const token = generateToken(filter);
       res.status(200).json({
         status: "success",
         message: "user successfully found",
-        body: filter,
+        body: { ...filter, token: token },
       });
     }
   } catch (error) {
@@ -95,6 +100,26 @@ exports.userUpdateByIdController = async (req, res) => {
     res.status(401).json({
       status: "fail",
       messgae: "user role not changed",
+    });
+  }
+};
+
+exports.emailVarify = async (req, res) => {
+  try {
+    const mailData = {
+      to: [req.params.email],
+      subject: "Time keeper - verify your email",
+      text: "Thank you",
+    };
+    sendMail(mailData);
+    res.status(200).json({
+      status: "succeess",
+      message: "successfully verify email",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      error,
     });
   }
 };

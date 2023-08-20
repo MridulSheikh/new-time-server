@@ -1,4 +1,3 @@
-const firebaseInitialize = require("../firebase/firebase.init");
 const { createImageController } = require("./image.controller");
 const { removeImageFromFolderController } = require("./folder.controller");
 const {
@@ -8,8 +7,9 @@ const {
   uploadBytesResumable,
   deleteObject,
 } = require("firebase/storage");
+const firebaseInitialize = require("../config/firebase.config");
 
-// initialize firebase app
+// Initialize firebase app
 firebaseInitialize();
 
 // Create a root reference

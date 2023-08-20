@@ -1,3 +1,4 @@
+const { initializeApp } = require("firebase/app");
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -6,4 +7,7 @@ const firebaseConfig = {
   messagingSenderId: process.env.FIREBASE_MESSAGE_SENDER_ID,
   appId: process.env.FIREBASE_APP_ID,
 };
-module.exports = firebaseConfig;
+const firebaseInitialize = () => {
+  initializeApp(firebaseConfig);
+};
+module.exports = firebaseInitialize;

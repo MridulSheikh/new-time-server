@@ -75,6 +75,7 @@ exports.getCategoryByIdController = async (req, res) => {
   } catch (error) {
     res.status(401).json({
       errorcode: 401,
+      message: error.message,
       errormessage: error.message,
     });
   }
@@ -95,12 +96,14 @@ exports.updateCategoryController = async (req, res) => {
       res.status(401).json({
         errorcode: 401,
         errormessage: "make sure you are given right cetagory id or data",
+        message:"make sure you are given right cetagory id or data",
       });
     }
   } catch (error) {
     res.status(401).json({
       errorcode: 401,
       errormessage: "This Name Already Taken",
+      message : "This Name Already Taken",
     });
   }
 };
@@ -123,6 +126,7 @@ exports.deleteCategoryController = async (req, res) => {
     res.status(401).json({
       errorcode: 401,
       errormessage: error.message,
+      message : error.message
     });
   }
 };

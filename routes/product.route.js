@@ -1,18 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/product.controller");
+const verifyToken = require("../middlewares/verifyToken");
+const verifyadmin = require("../middlewares/verifyadmin");
 
 router
   .route("/")
-  .post(controller.createProductController)
+  .post(verifyToken,verifyadmin,controller.createProductController)
   .get(controller.getProdcutController)
-  .delete(controller.deleteProductController);
+  .delete(verifyToken,verifyadmin,controller.deleteProductController);
 
-router.route("/review/:id").patch(controller.addReviewsController);
+router.route("/review/:id").patch(verifyToken,controller.addReviewsController);
 
 router
   .route("/:id")
-  .get(controller.getProductByIdController)
-  .patch(controller.updateProductController);
+  .get(verifyToken,controller.getProductByIdController)
+  .patch(verifyToken,verifyadmin,controller.updateProductController);
 
 module.exports = router;

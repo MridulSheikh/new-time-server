@@ -1,15 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/brand.controller");
+const verifyToken = require("../middlewares/verifyToken");
+const verifyadmin = require("../middlewares/verifyadmin");
 
 router
   .route("/")
-  .post(controller.createBrandController)
+  .post(verifyToken,verifyadmin,controller.createBrandController)
   .get(controller.getBrandController);
 
 router
   .route("/:id")
-  .get(controller.getBrandByIdController)
-  .delete(controller.deleteBrandController)
-  .patch(controller.updateBrandController);
+  .get(verifyToken,verifyadmin,controller.getBrandByIdController)
+  .delete(verifyToken,verifyadmin,controller.deleteBrandController)
+  .patch(verifyToken,verifyadmin,controller.updateBrandController);
 module.exports = router;

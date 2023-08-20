@@ -10,6 +10,7 @@ module.exports.paymentController = async (req, res, nex) => {
             currency: "usd",
             payment_method_types: ["card"]
         })
+        console.log(paymentIntent)
         res.send({
             clientSecret: paymentIntent.client_secret,
         });
