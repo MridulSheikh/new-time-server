@@ -7,6 +7,8 @@ const {
 
 const { sendMail } = require("../lib/email");
 const { generateToken } = require("../utils/token");
+const jwt = require("jsonwebtoken");
+const { promisify } = require("util");
 
 exports.createUserController = async (req, res) => {
   try {
@@ -14,7 +16,7 @@ exports.createUserController = async (req, res) => {
     if (filter === null) {
       const result = await createUserService(req.body.email);
       if (result.email) {
-        const token = generateToken({ email: result.email, role: "buyer" });
+        const token = generateToken({ email: result.email, role: "buyer" }, '24h');
         res.status(200).json({
           status: "success",
           message: "successfully create user",
@@ -23,7 +25,7 @@ exports.createUserController = async (req, res) => {
         return;
       }
     } else {
-      const token = generateToken(filter);
+      const token = generateToken(filter, '24h');
       res.status(200).json({
         status: "success",
         message: "user successfully found",
@@ -106,20 +108,64 @@ exports.userUpdateByIdController = async (req, res) => {
 
 exports.emailVarify = async (req, res) => {
   try {
+     const token = generateToken({ email: req.params.email},'120s');
+     const confirm_uri = `${process.env.CLIENT_HOST+"verifyemail"+`?email=${req.params.email}&token=${token}`}`
     const mailData = {
+      forom : process.env.SENDER_MAIL,
       to: [req.params.email],
       subject: "Time keeper - verify your email",
-      text: "Thank you",
+      template : 'email',
+      context: {
+        email : req.params.email,
+        confirm_uri : confirm_uri
+    }
+
     };
-    sendMail(mailData);
+   const infoMessageId = await sendMail(mailData);
     res.status(200).json({
       status: "succeess",
-      message: "successfully verify email",
+      message: "Please check you email",
     });
   } catch (error) {
     res.status(500).json({
       status: "fail",
       error,
+      message: "email not send",
+    });
+  }
+};
+
+exports.emailConfirm = async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const {email} = req.params;
+    const decoded = await promisify(jwt.verify)(
+      token,
+      process.env.JWT_SIGNATURE
+    );
+    if(decoded.email === email){
+      const userupdate = await userUpdatebyIdService(email, {verified : true})
+      if(userupdate.modifiedCount === 0){
+        res.status(200).json({
+          status: "fail",
+          message: "email is not verified please try again",
+        })
+      }
+      res.status(200).json({
+        status: "succeess",
+        message: "successfully verify email",
+      });
+    }else{
+      res.status(200).json({
+        status: "fail",
+        message: "email is not verified please try again",
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      error,
+      message : "email not varified please try again"
     });
   }
 };

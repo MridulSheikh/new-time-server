@@ -3,8 +3,8 @@ const stripe = require("stripe")(process.env.stripe_key);
 
 module.exports.paymentController = async (req, res, nex) => {
     try{
-        const service = req.body;
-        const amount = service.price*100;
+        const {items, total, address} = req.body;
+        const amount = total*100;
         const paymentIntent = await stripe.paymentIntents.create({
             amount : amount,
             currency: "usd",

@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
-exports.generateToken = (userInfo) => {
+exports.generateToken = (userInfo, expiredate) => {
   const payload = {
     email: userInfo.email,
     role: userInfo.role,
   };
   const token = jwt.sign(payload, process.env.JWT_SIGNATURE, {
-    expiresIn: '24h',
+    expiresIn: expiredate,
   });
   return token;
 };
