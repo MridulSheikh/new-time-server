@@ -109,8 +109,8 @@ exports.userUpdateByIdController = async (req, res) => {
 exports.emailVarify = async (req, res) => {
   try {
      const token = generateToken({ email: req.params.email},'120s');
-     const confirm_uri = `${process.env.CLIENT_HOST+"verifyemail"+`?email=${req.params.email}&token=${token}`}`
-    const mailData = {
+     const confirm_uri = `${process.env.CLIENT_HOST}/verifyemail/${token}`
+     const mailData = {
       forom : process.env.SENDER_MAIL,
       to: [req.params.email],
       subject: "Time keeper - verify your email",
@@ -119,7 +119,6 @@ exports.emailVarify = async (req, res) => {
         email : req.params.email,
         confirm_uri : confirm_uri
     }
-
     };
    const infoMessageId = await sendMail(mailData);
     res.status(200).json({
@@ -138,25 +137,26 @@ exports.emailVarify = async (req, res) => {
 exports.emailConfirm = async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
-    const {email} = req.params;
     const decoded = await promisify(jwt.verify)(
       token,
       process.env.JWT_SIGNATURE
     );
-    if(decoded.email === email){
-      const userupdate = await userUpdatebyIdService(email, {verified : true})
+    if(decoded?.email){
+      const userupdate = await userUpdatebyIdService(decoded.email, {verified : true})
+      console.log(userupdate)
       if(userupdate.modifiedCount === 0){
-        res.status(200).json({
+        res.status(500).json({
           status: "fail",
           message: "email is not verified please try again",
         })
+        return;
       }
       res.status(200).json({
-        status: "succeess",
-        message: "successfully verify email",
-      });
-    }else{
-      res.status(200).json({
+        status: "success",
+        message: "email sucessfully verified",
+      })
+    }else{ 
+      res.status(500).json({
         status: "fail",
         message: "email is not verified please try again",
       })

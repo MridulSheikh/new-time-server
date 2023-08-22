@@ -11,7 +11,7 @@ router
   .get(verifyToken,verifyadmin,userController.getUserController);
 
 router.route("/verify/:email").post(userController.emailVarify);
-router.route("/confirm/:email").get(userController.emailConfirm)
+router.route("/confirm").post(userController.emailConfirm)
 
 router
   .route("/:email")
