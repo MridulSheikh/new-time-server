@@ -17,12 +17,11 @@ module.exports = async (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    {
+      console.log(error)
       res.status(403).json({
         status: "fail",
         message : "your login session expired please login again",
         errormessage : "your login session expired please login again"
       });
-    }
   }
 };

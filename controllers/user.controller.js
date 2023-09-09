@@ -111,7 +111,7 @@ exports.emailVarify = async (req, res) => {
      const token = generateToken({ email: req.params.email},'120s');
      const confirm_uri = `${process.env.CLIENT_HOST}/verifyemail/${token}`
      const mailData = {
-      forom : process.env.SENDER_MAIL,
+      from : process.env.SENDER_MAIL,
       to: [req.params.email],
       subject: "Time keeper - verify your email",
       template : 'email',
@@ -143,7 +143,6 @@ exports.emailConfirm = async (req, res) => {
     );
     if(decoded?.email){
       const userupdate = await userUpdatebyIdService(decoded.email, {verified : true})
-      console.log(userupdate)
       if(userupdate.modifiedCount === 0){
         res.status(500).json({
           status: "fail",

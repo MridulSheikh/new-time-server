@@ -1,34 +1,33 @@
 const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
-      email : {
+       status : {
         type : String,
-        required : [true, "please provide a email address"]
-      },
-      phone : {
-        type : String,
-        required : [true, "please provide a phone number"]
-      },
-      country : {
-        type : String,
-        required : [true, "please provide your country"]
-      },
-      address : {
-        type : String,
-        required : [true, "please provide a address"]
-      },
-      paidprice : {
-        type : Number,
-        required : [true, "required paid price"]
-      },
-      status : {
-        type : String,
-        enum : ["pending", "shipped", "done"],
+        enum : ["pending", "shipped", "delivered", "packed"],
         default : "pending"
+       },
+       total : Number,
+       address : {
+          country : String,
+          number : String,
+          state : String,
+          post : String,
+          email : String,
+          address_1_line : String
+       },
+      confirm : {
+        type : Boolean,
+        enum : [true, false],
+        default : false
       },
-      orderproduct : [
+      paid : {
+        type : Boolean,
+        enum : [true, false],
+        default : false
+      },
+      item : [
         {
-          id : String,
+          _id : String,
           img : String,
           name : String,
           price : Number,

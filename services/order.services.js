@@ -5,15 +5,15 @@ exports.createOrderService= async (data)=>{
 }
 
 exports.getOrderService = async (query) => {
-        return await Order.find(query).sort({createdAt : -1})
+        return await Order.find({"address.email" : query.email}).sort({createdAt : -1})
 }
 
 exports.getOrderbyIdService = async (id) => {
         return Order.findOne({_id : id})
 }
 
-exports.updateOrderService = async (data) => {
-        return Order.updateOne({_id : data.id}, data,{
+exports.updateOrderService = async (id,data) => {
+        return Order.updateOne({_id : id}, data,{
             runValidators: true
         })
 }

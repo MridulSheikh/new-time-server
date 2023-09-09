@@ -15,7 +15,7 @@ router.route("/confirm").post(userController.emailConfirm)
 
 router
   .route("/:email")
-  .get(userController.getUserByIdController)
+  // .get(userController.getUserByIdController)
   .patch(verifyToken,verifyadmin, userController.userUpdateByIdController);
 
 module.exports = router;
