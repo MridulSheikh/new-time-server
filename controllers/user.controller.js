@@ -91,7 +91,7 @@ exports.userUpdateByIdController = async (req, res) => {
     if (result.modifiedCount === 0) {
       return res.status(401).send({
         status: "fail",
-        messgae: "user role not changed",
+        message: "user not found!",
       });
     }
     res.status(200).json({
@@ -101,7 +101,7 @@ exports.userUpdateByIdController = async (req, res) => {
   } catch (error) {
     res.status(401).json({
       status: "fail",
-      messgae: "user role not changed",
+      message: "user role not changed",
     });
   }
 };
