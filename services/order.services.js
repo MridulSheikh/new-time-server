@@ -4,8 +4,13 @@ exports.createOrderService= async (data)=>{
        return Order.create(data);
 }
 
-exports.getOrderService = async (query) => {
-        return await Order.find({"address.email" : query.email}).sort({createdAt : -1})
+exports.getOrderService = async (filters,query) => {
+        return await Order.find(filters)
+        .skip(query.skip)
+        .limit(query.limit)
+        .select(query.fields)
+        .sort(query.sort)
+        .populate(query.populate)
 }
 
 exports.getOrderbyIdService = async (id) => {

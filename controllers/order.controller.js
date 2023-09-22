@@ -8,13 +8,12 @@ const {
 } = require("../services/order.services");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
+const queryfilter = require("../lib/queryfilter")
 
 exports.getOrderController = async (req, res) => {
   try {
-    const filters = { ...req.query };
-    const execudeFields = ["sort", "page", "limit"];
-    execudeFields.forEach((field) => delete filters[field]);
-    const result = await getOrderService(filters);
+    const {filters, queries} = queryfilter(req);
+    const result = await getOrderService(filters, queries);
     if (result.length === 0) {
       res.status(404).json({
         statuscode: 404,

@@ -17,11 +17,6 @@ const blogSchema = mongoose.Schema(
             type: String,
         },
         author : String,
-        comments: [{
-            useremail : String,
-            comment : String,
-            date : String
-        }]
     },
     {
         timestamps: true,
