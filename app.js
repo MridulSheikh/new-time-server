@@ -13,11 +13,10 @@ const folder = require("./routes/folder.route");
 const image = require("./routes/image.route");
 
 // middleware
-app.use(express.json());
 app.use(cors({
   origin: "https://time-keeper-five.vercel.app"
-}));
-
+}))
+app.use(express.json());
 //routes
 // user route
 app.use("/api/v1/user", userRoute);
