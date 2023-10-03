@@ -14,7 +14,9 @@ const image = require("./routes/image.route");
 
 // middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  cors : "https://time-keeper-five.vercel.app"
+}));
 
 //routes
 // user route
